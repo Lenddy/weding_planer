@@ -1,0 +1,39 @@
+﻿@model Wedding
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wedding</title>
+</head>
+<body>
+    <h1>Add wedding</h1>
+    <div><a href="/home"<button>home</button></a></div>
+    <form action="/logout" method="post"> <button>Logout</button> </form>
+    <form asp-controller="wedding" asp-action="create" method="post">
+                <div>
+                <label asp-for="person1"></label>
+                <input type="text" asp-for="person1" id="">
+                <span asp-validation-for="person1" ></span>
+                </div>
+                <div>
+                <label asp-for="person2"></label>
+                <input type="text" asp-for="person2" id="">
+                <span asp-validation-for="person2" ></span>
+                </div>
+                <div>
+                <label asp-for="Date"></label>
+                <input  asp-for="Date" id="">
+                <span asp-validation-for="Date" ></span>
+                </div>
+                <div>
+                <label asp-for="Address"></label>
+                <input  asp-for="Address" id="">
+                <span asp-validation-for="Address" ></span>
+                </div>
+                <button>add wedding</button>
+
+    </form>
+</body>
+</html>

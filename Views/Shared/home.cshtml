@@ -1,0 +1,71 @@
+@model List<Wedding>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+		table {
+			width: 800px;
+			height: 10px;
+		}
+		table,
+		tr,
+		th,
+		td {
+			border: 1px solid black;
+		}
+	</style>
+<body>
+    <h1>welcome @Context.Session.GetInt32("uid")</h1>
+<a asp-controller="wedding" asp-action="NewWedding"> <button> create a wedding </button> </a>
+    <form action="/logout" method="post"> <button>Logout</button> </form>
+    <h1> All weddings </h1>
+    
+    <table>
+        <tr>
+            <th>wedding</th>
+            <th>Date</th>
+            <th>create by</th>
+            <th>Guest</th>
+            <th>Action</th>
+        </tr>
+        @foreach(Wedding item in Model)
+        {
+            @if(@item.weddingCreator != null){
+            <tr> 
+                <td><a href="/wedding/@item.WeddingId"> @item.person1 & @item.person2</a> </td>
+                <td>@item.Date</td>
+                <th>@item.weddingCreator.F_name @item.weddingCreator.L_name</th>
+                <td>@item.Guest.Count</td>
+                <th>
+                @if(item.UserId == Context.Session.GetInt32("uid")){
+                <a href="/wedding/@item.WeddingId/edit"><button>edit</button></a>
+                <form asp-controller="wedding" asp-action="delete" asp-route-id="@item.WeddingId" > <button> Delete </button></form>
+                }
+                else
+                {
+                    @**creating a boolean variable to see if the a user is attending or not *@
+                        bool alreadyAttending = item.Guest.Any(u => u.UserId == Context.Session.GetInt32("uid"));
+                        @*todo the logic works but the buttons does not change  *@
+                    <form asp-controller="wedding" asp-action="guest" asp-route-id="@item.WeddingId" >
+                        <button>
+                            @if(alreadyAttending == true){
+                                <span>dont attend</span>
+                            }
+                            else{
+                                <span> attend </span>
+                            }
+                        </button></form>
+                }
+                </th>
+            </tr>
+            }
+        }
+
+    </table>
+</body>
+</html>

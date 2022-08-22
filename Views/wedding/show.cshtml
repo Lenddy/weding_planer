@@ -1,0 +1,33 @@
+@model Wedding
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>@Model.person1 & @Model.person2 <span>'s</span> wedding</h1>
+        <a href="/home"<button>home</button></a>
+        @if(Model.UserId == Context.Session.GetInt32("uid")){
+        <div><a href="/wedding/@Model.WeddingId/edit"><button>edit</button></a> </div>
+        <div> <form asp-controller="wedding" asp-action="delete" asp-route-id="@Model.WeddingId" > <button> Delete </button></form> </div>
+        }
+    <form action="/logout" method="post"> <button>Logout</button> </form>
+    <h4>Date @Model.Date</h4>
+    <h6>Guests</h6>
+    @foreach (Association item in Model.Guest)
+    {
+        if(item.user != null){
+        <li>@item.user.F_name @item.user.L_name </li>
+        }
+    }
+
+    <div>
+    @if(Model.weddingCreator != null){
+    <p>created by @Model.weddingCreator.F_name  @Model.weddingCreator.L_name</p>
+    }
+    </div>
+</body>
+</html>
